@@ -46,13 +46,16 @@
 
     function readFile() {
       fs.readFile(filename, 'utf8', function (err, text) {
+        /*
         if (err) {
           console.error("[ERROR] couldn't read from '" + filename + "':");
           console.error(err.message);
           return;
         }
-
-        cb(err, text);
+        */
+        // on windows fs.readFile() unproperly handles utf-8 files with BOM
+        text = text.replace(/^\uFEFF/, '')
+        cb(null, text);
       });
     }
 
